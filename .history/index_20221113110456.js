@@ -38,10 +38,7 @@ async function run() {
 
     // POST an appointment to database
     app.post('/appointments', async(req, res) => {
-      const appointment = req.body;
-      const result = await appointmentCollection.insertOne(appointment);
-      // console.log(result);
-      res.json(result);
+
     })
 
   } finally {

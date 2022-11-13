@@ -38,10 +38,7 @@ async function run() {
 
     // POST an appointment to database
     app.post('/appointments', async(req, res) => {
-      const appointment = req.body;
-      const result = await appointmentCollection.insertOne(appointment);
-      // console.log(result);
-      res.json(result);
+      
     })
 
   } finally {
@@ -51,11 +48,11 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-  res.send('Hello Doctors Portal!');
+  res.send('Hellooooow doctors portal!');
 }); 
 
 app.listen(port, () => {
-  console.log(`My app is listening on port ${port}`);
+  console.log(`Example app listening on port ${port}`);
 });
 
 
@@ -64,8 +61,8 @@ app.listen(port, () => {
   // DB_PASS=EzVG0BwVrcOO3FdH
 
 // API Naming Convention
-//   app.get('/users')  // get all users
-//   app.post('/users')  // post or create or add a single user
-//   app.get('/users/:id')  // get specific user by id
-//   app.put('/users/:id')  // update specific user by id
-//   app.delete('/users/:id')  // delete specific user by id
+  // app.get('/users')  // get all users
+  // app.post('/users')  // post or create or add a single user
+  // app.get('/users/:id')  // get specific user by id
+  // app.put('/users/:id')  // update specific user by id
+  // app.delete('/users/:id')  // delete specific user by id
