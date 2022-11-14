@@ -45,21 +45,10 @@ async function run() {
     })
 
     //GET API (all)
-    // app.get('/appointments', async(req, res) => {
-    //   const cursor = appointmentCollection.find({});
-    //   const appointments = await cursor.toArray();
-    //   // res.send(appointments);
-    //   res.json(appointments);
-    // })
-
-    //GET API (single)
     app.get('/appointments', async(req, res) => {
-      const email = req.query.email;
-      const date = new Date(req.query.date).toDateString();
-      const query = {email: email, date: date};
-      const cursor = appointmentCollection.find(query);
+      const cursor = appointmentCollection.find({});
       const appointments = await cursor.toArray();
-      // res.send(appointments);
+      res.send(appointments);
       res.json(appointments);
     })
 
