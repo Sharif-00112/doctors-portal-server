@@ -53,7 +53,7 @@ async function run() {
       res.json(result);
     })
 
-    // UPSERT an user to database (check if exists; then replace or add)
+    // UPSERT an user to database (google sign in, login)
     app.put('/users', async(req, res) => {
       const user = req.body;
       // check if the user exists

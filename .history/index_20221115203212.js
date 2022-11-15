@@ -45,23 +45,10 @@ async function run() {
       res.json(result);
     })
 
-    // POST an user to database (custom sign in)
+    // POST an user to database
     app.post('/users', async(req, res) => {
       const user = req.body;
       const result = await userCollection.insertOne(user);
-      // console.log(result);
-      res.json(result);
-    })
-
-    // UPSERT an user to database (check if exists; then replace or add)
-    app.put('/users', async(req, res) => {
-      const user = req.body;
-      // check if the user exists
-      const filter = { email: user.email };
-      // create if not matches 
-      const options = { upsert : true };
-      const updateDoc = {$set: user};
-      const result = await userCollection.updateOne(filter, updateDoc, options);
       // console.log(result);
       res.json(result);
     })

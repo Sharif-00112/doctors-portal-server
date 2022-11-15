@@ -53,15 +53,10 @@ async function run() {
       res.json(result);
     })
 
-    // UPSERT an user to database (check if exists; then replace or add)
+    // UPSERT an user to database (google sign in)
     app.put('/users', async(req, res) => {
       const user = req.body;
-      // check if the user exists
-      const filter = { email: user.email };
-      // create if not matches 
-      const options = { upsert : true };
-      const updateDoc = {$set: user};
-      const result = await userCollection.updateOne(filter, updateDoc, options);
+      const result = await userCollection.insertOne(user);
       // console.log(result);
       res.json(result);
     })
