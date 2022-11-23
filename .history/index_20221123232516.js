@@ -57,12 +57,7 @@ async function run() {
     app.get('/users/:email', async(req, res) => {
       const email = req.params.email;
       const query = { email: email };
-      const user = await userCollection.findOne(query);
-      let isAdmin = false;
-      if(user?.role === 'admin'){
-        isAdmin = true;
-      }
-      res.json({ admin: isAdmin });
+      
     })
 
     //GET appointment API (all)
