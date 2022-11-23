@@ -87,7 +87,7 @@ async function run() {
     })
 
     //Make Admin
-    app.put('/users/admin', async(req, res) => {
+    app.put('/users//admin', async(req, res) => {
       const user = req.body;
       console.log('put', user);
       const filter = {email: user.email};

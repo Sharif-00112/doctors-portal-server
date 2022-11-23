@@ -53,6 +53,19 @@ async function run() {
       res.json(result);
     })
 
+    // UPSERT an user to database (check if exists; then replace or add)
+    app.put('/users', async(req, res) => {
+      const user = req.body;
+      // check if the user exists
+      const filter = { email: user.email };
+      // create if does not match
+      const options = { upsert : true };
+      const updateDoc = {$set: user};
+      const result = await userCollection.updateOne(filter, updateDoc, options);
+      // console.log(result);
+      res.json(result);
+    })
+
     //GET API (all)
     // app.get('/appointments', async(req, res) => {
     //   const cursor = appointmentCollection.find({});
@@ -70,30 +83,6 @@ async function run() {
       const appointments = await cursor.toArray();
       // res.send(appointments);
       res.json(appointments);
-    })
-
-    // UPSERT an user to database (check if exists; then replace or add)
-    app.put('/users', async(req, res) => {
-      const user = req.body;
-      // console.log('put', user);
-      // check if the user exists
-      const filter = { email: user.email };
-      // create if does not match
-      const options = { upsert : true };
-      const updateDoc = {$set: user};
-      const result = await userCollection.updateOne(filter, updateDoc, options);
-      // console.log(result);
-      res.json(result);
-    })
-
-    //Make Admin
-    app.put('/users/admin', async(req, res) => {
-      const user = req.body;
-      console.log('put', user);
-      const filter = {email: user.email};
-      const updateDoc = {$set: {role: 'admin'}};
-      const result = await userCollection.updateOne(filter, updateDoc);
-      res.json(result);
     })
 
   } finally {

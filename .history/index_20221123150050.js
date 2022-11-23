@@ -75,7 +75,6 @@ async function run() {
     // UPSERT an user to database (check if exists; then replace or add)
     app.put('/users', async(req, res) => {
       const user = req.body;
-      // console.log('put', user);
       // check if the user exists
       const filter = { email: user.email };
       // create if does not match
@@ -87,13 +86,9 @@ async function run() {
     })
 
     //Make Admin
-    app.put('/users/admin', async(req, res) => {
-      const user = req.body;
-      console.log('put', user);
-      const filter = {email: user.email};
-      const updateDoc = {$set: {role: 'admin'}};
-      const result = await userCollection.updateOne(filter, updateDoc);
-      res.json(result);
+    app.put('/users//admin', async(req, res) => {
+      const email = req.body;
+
     })
 
   } finally {
