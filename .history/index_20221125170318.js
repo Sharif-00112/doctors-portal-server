@@ -94,7 +94,7 @@ async function run() {
     // })
 
     //GET appointment API (single)
-    app.get('/appointments', verifyToken, async(req, res) => {
+    app.get('/appointments', async(req, res) => {
       const email = req.query.email;
       const date = new Date(req.query.date).toDateString();
       const query = {email: email, date: date};

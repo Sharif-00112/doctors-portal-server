@@ -6,9 +6,9 @@ require('dotenv').config();
 const port = process.env.PORT || 3005;
 
 //firebase admin initialization 
-//private_key_file-name: doctors-portal-00112-firebase-adminsdk-rhu8v-7c0acf8d5a.json
+//private_key_file-name: doctors-portal-00112-firebase-adminsdk-rhu8v-74971aac2a.json
 var admin = require("firebase-admin");
-var serviceAccount = require('./doctors-portal-00112-firebase-adminsdk-rhu8v-7c0acf8d5a.json');
+var serviceAccount = require('./doctors-portal-00112-firebase-adminsdk-rhu8v-74971aac2a.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
@@ -25,17 +25,16 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 // console.log(uri);
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
-
 //Verify Firebase token using external function 
 async function verifyToken(req, res, next) {
   if(req.headers?.authorization?.startsWith('Bearer ')){
-    const idToken = req.headers.authorization.split(' ')[1];
+    const idToken = req.headers.authorization.split('Bearer ')[1];
     // console.log('Inside separate function:', idToken);
     try{
       const decodedUser = await admin.auth().verifyIdToken(idToken);
       // console.log(decodedUser);
-      // console.log('email:', decodedUser.email);
-      req.decodedEmail = decodedUser.email;
+      console.log('email:', decodedUser.email);
+      req.decodedUserEmail = decodedUser.email;
     }catch (error){
       console.log(error);
     }
@@ -94,7 +93,7 @@ async function run() {
     // })
 
     //GET appointment API (single)
-    app.get('/appointments', verifyToken, async(req, res) => {
+    app.get('/appointments', async(req, res) => {
       const email = req.query.email;
       const date = new Date(req.query.date).toDateString();
       const query = {email: email, date: date};
@@ -119,27 +118,14 @@ async function run() {
     })
 
     //Make Admin
-    app.put('/users/admin', verifyToken, async(req, res) => {
+    app.put('/users/admin', async(req, res) => {
       const user = req.body;
       // console.log('put', user);
       // console.log('put', req.headers);
-      // console.log('put', req.headers.authorization);
-      // console.log('Decoded Email:', req.decodedEmail);
-
-      const requester =  req.decodedEmail;
-      if(requester){
-        const requesterAccount = await userCollection.findOne({email: requester});
-        if(requesterAccount.role === 'admin'){
-          const filter = {email: user.email};
-          const updateDoc = {$set: {role: 'admin'}};
-          const result = await userCollection.updateOne(filter, updateDoc);
-          res.json(result);
-        }
-      }
-      else{
-        // 403 is forbidden status
-        res.status(403).json({message: 'You do not have permission to this page'})
-      }
+      const filter = {email: user.email};
+      const updateDoc = {$set: {role: 'admin'}};
+      const result = await userCollection.updateOne(filter, updateDoc);
+      res.json(result);
     })
 
   } finally {
