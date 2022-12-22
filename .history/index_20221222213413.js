@@ -48,9 +48,9 @@ async function verifyToken(req, res, next) {
   next();
 }
 
-// const calculateOrderAmount = (paymentInfo) => {
-//   return paymentInfo.price;
-// };
+const calculateOrderAmount = (paymentInfo) => {
+  return paymentInfo.price * 100;
+};
 
 // CRUD Operation
 async function run() {
@@ -160,14 +160,12 @@ async function run() {
     })
 
     app.post("/create-payment-intent", async (req, res) => {
-      // const { paymentInfo } = req.body;
-      const { price } = req.body;
-      // const amount = paymentInfo.price;
+      const { paymentInfo } = req.body;
+      // const amount = paymentInfo.price * 100;
       // Create a PaymentIntent with the order amount and currency
       const paymentIntent = await stripe.paymentIntents.create({
         // amount: calculateOrderAmount(paymentInfo),
-        // amount: amount,
-        amount: price,
+        amount: paymentInfo.price * 100,
         currency: "usd",
         automatic_payment_methods: {
           enabled: true,

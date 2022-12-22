@@ -48,9 +48,6 @@ async function verifyToken(req, res, next) {
   next();
 }
 
-// const calculateOrderAmount = (paymentInfo) => {
-//   return paymentInfo.price;
-// };
 
 // CRUD Operation
 async function run() {
@@ -158,25 +155,6 @@ async function run() {
         res.status(403).json({message: 'You do not have permission to this page'})
       }
     })
-
-    app.post("/create-payment-intent", async (req, res) => {
-      // const { paymentInfo } = req.body;
-      const { price } = req.body;
-      // const amount = paymentInfo.price;
-      // Create a PaymentIntent with the order amount and currency
-      const paymentIntent = await stripe.paymentIntents.create({
-        // amount: calculateOrderAmount(paymentInfo),
-        // amount: amount,
-        amount: price,
-        currency: "usd",
-        automatic_payment_methods: {
-          enabled: true,
-        },
-      });
-      res.json({
-        clientSecret: paymentIntent.client_secret,
-      });
-    });
 
   } finally {
     // await client.close();

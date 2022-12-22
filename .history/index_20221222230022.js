@@ -173,7 +173,7 @@ async function run() {
           enabled: true,
         },
       });
-      res.json({
+      res.send({
         clientSecret: paymentIntent.client_secret,
       });
     });

@@ -160,14 +160,12 @@ async function run() {
     })
 
     app.post("/create-payment-intent", async (req, res) => {
-      // const { paymentInfo } = req.body;
-      const { price } = req.body;
+      const { paymentInfo } = req.body;
       // const amount = paymentInfo.price;
       // Create a PaymentIntent with the order amount and currency
       const paymentIntent = await stripe.paymentIntents.create({
         // amount: calculateOrderAmount(paymentInfo),
-        // amount: amount,
-        amount: price,
+        amount: 50000,
         currency: "usd",
         automatic_payment_methods: {
           enabled: true,
