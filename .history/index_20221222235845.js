@@ -83,16 +83,7 @@ async function run() {
 
     //update appointment for adding payment
     app.put('/appointments/:id', async(req, res) =>{
-      const id = req.params.id;
-      const payment = req.body;
-      const filter = { _id: ObjectId(id)};
-      const updateDoc = {
-        $set: {
-          payment: payment
-        }
-      };
-      const result = await appointmentCollection.updateOne(filter, updateDoc);
-      res.json(result);
+      
     })
 
     // GET a single user by email API
