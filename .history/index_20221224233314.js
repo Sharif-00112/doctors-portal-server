@@ -4,7 +4,6 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config();
 const port = process.env.PORT || 3005;
-const fileUpload = require('express-fileupload');
 
 // STRIPE_SECRET
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
@@ -22,10 +21,9 @@ admin.initializeApp({
 
 const app = express();
 
-//middleware (s)
+//middleware
 app.use(cors());
 app.use(express.json());
-app.use(fileUpload());
 
 //connecting database
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.cny0fg3.mongodb.net/?retryWrites=true&w=majority`;
@@ -154,24 +152,7 @@ async function run() {
 
     //ADD Doctor
     app.post('/doctors', async(req, res) => {
-      // console.log('body', req.body);
-      // console.log('files', req.files);
-      const name = req.body.name;
-      const email = req.body.email;
 
-      const pic = req.files.image;
-      const picData = pic.data;
-      const encodedPic = picData.toString('base64');
-      const imageBuffer = Buffer.from(encodedPic, 'base64');
-
-      const doctor = {
-        name,
-        email,
-        image: imageBuffer
-      }
-
-      const result = await doctorsCollection.insertOne(doctor);
-      res.json(result);
     })
 
     //Make Admin
